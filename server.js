@@ -3,7 +3,7 @@ require("dotenv").config();
 const escalateOldComplaints = require("./escalationScheduler");
 
 const authRoutes = require("./routes/authRoutes");
-const complaintRoutes = require("./routes/complaintRoutes"); // ✅ Import the router only
+const complaintRoutes = require("./routes/complaintRoutes"); // ✅ Correct import
 const messageRoutes = require("./routes/messageRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
@@ -22,7 +22,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/complaints", complaintRoutes); // ✅ Now it's correct
+app.use("/api/complaints", complaintRoutes); // ✅ Now it works
 app.use("/api/messages", messageRoutes);     // Two-way communication
 app.use("/api/notifications", notificationRoutes); // Alerts & notifications
 app.use("/api/services", serviceRoutes);     // Government service information

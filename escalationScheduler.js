@@ -1,14 +1,22 @@
 const Complaint = require("./models/Complaint");
-const checkEscalation = require("./routes/complaintRoutes"); // ✅ Import function
+const checkEscalation = require("./utils/escalation"); // ✅ Correct Import
 const sendEmail = require("./utils/emailService");
 
 const escalateOldComplaints = async () => {
   console.log("🔄 Running escalation check...");
 
-  const complaints = await Complaint.find({ status: { $ne: "Resolved" } });
+  try {
+    const complaints = await Complaint.find({ status: { $ne: "Resolved" } });
 
-  for (let complaint of complaints) {
-    await checkEscalation(complaint); // ✅ Now works correctly
+    for (let complaint of complaints) {
+      if (typeof checkEscalation === "function") {
+        await checkEscalation(complaint); // ✅ Now works correctly
+      } else {
+        console.error("❌ checkEscalation is NOT a function!");
+      }
+    }
+  } catch (error) {
+    console.error("❌ Error in escalation process:", error.message);
   }
 };
 
